@@ -45,7 +45,13 @@ class DecompMarker:
         self, marker_type: str, module: str, offset: int, extra: str | None = None
     ) -> None:
         try:
-            self._type = MarkerType[marker_type.upper()]
+            alias_map = {
+                "FUNC": "FUNCTION",
+                "VAR": "GLOBAL",
+            }
+            upper_type = marker_type.upper()
+            mapped_type = alias_map.get(upper_type, upper_type)
+            self._type = MarkerType[mapped_type]
         except KeyError:
             self._type = MarkerType.UNKNOWN
 
